@@ -11,13 +11,13 @@ fixtures:
         given:
           year: 2012
         action: isLeapYear
-        output: true
+        expected: true
 
       - proposition: If it is divisible by 400
         given:
           year: 2000
         action: isLeapYear
-        output: true
+        expected: true
 
   - definition: A year is not a leap year
     propositions:
@@ -26,11 +26,11 @@ fixtures:
         given:
           year: 2001
         action: isLeapYear
-        output: false
+        expected: false
 
       - proposition: If it is divisable by 100 but not by 400
         given:
           year: 2100
         action: isLeapYear
-        output: false
+        expected: false
 ...

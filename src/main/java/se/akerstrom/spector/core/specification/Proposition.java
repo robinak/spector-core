@@ -9,5 +9,5 @@ public interface Proposition
     String getProposition();
     Map<String, Object> getGiven();
     String getAction();
-    Object getOutput();
+    Object getExpected();
 }

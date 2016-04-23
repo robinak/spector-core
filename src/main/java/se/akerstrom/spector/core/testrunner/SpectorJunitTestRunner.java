@@ -71,7 +71,7 @@ public class SpectorJunitTestRunner extends Runner
                     .filter((method) -> method.getName().equals(proposition.getAction()))
                     .findFirst()
                     .map((method) -> invoke(instance, method))
-                    .filter((returnValue) -> !proposition.getOutput().equals(returnValue))
+                    .filter((returnValue) -> !proposition.getExpected().equals(returnValue))
                     .ifPresent((returnValue) -> notifyTestFailure(specification, fixture, proposition, returnValue, notifier));
 
         } catch (ClassNotFoundException e) {
@@ -96,7 +96,7 @@ public class SpectorJunitTestRunner extends Runner
     void notifyTestFailure(Specification specification, Fixture fixture, Proposition proposition, Object returnValue, RunNotifier notifier)
     {
         Description description = describe(specification, fixture, proposition);
-        AssertionError assertionError = new AssertionError("Expected: " + proposition.getOutput() + ", but was: " + returnValue);
+        AssertionError assertionError = new AssertionError("Expected: " + proposition.getExpected() + ", but was: " + returnValue);
         Failure failure = new Failure(description, assertionError);
         notifier.fireTestFailure(failure);
     }
