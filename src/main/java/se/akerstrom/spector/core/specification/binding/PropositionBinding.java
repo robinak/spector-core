@@ -23,7 +23,7 @@ public class PropositionBinding implements Proposition
             @JsonProperty("output") Object output)
     {
         this.proposition = requireNonNull(proposition);
-        this.given = given == null ? emptyMap() : new HashMap(given);
+        this.given = given == null ? emptyMap() : new HashMap<>(given);
         this.action = requireNonNull(action);
         this.output = requireNonNull(output);
     }
