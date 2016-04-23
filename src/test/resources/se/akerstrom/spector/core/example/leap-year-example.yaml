@@ -1,0 +1,36 @@
+---
+
+description: Leap year spec
+
+unit: se.akerstrom.spector.core.example.Year
+fixtures:
+  - definition: A year is a leap year
+    propositions:
+
+      - proposition: If it is divisible by 4 but not 100
+        given:
+          year: 2012
+        action: isLeapYear
+        output: true
+
+      - proposition: If it is divisible by 400
+        given:
+          year: 2000
+        action: isLeapYear
+        output: true
+
+  - definition: A year is not a leap year
+    propositions:
+
+      - proposition: If it is not divisable by 4
+        given:
+          year: 2001
+        action: isLeapYear
+        output: false
+
+      - proposition: If it is divisable by 100 but not by 400
+        given:
+          year: 2100
+        action: isLeapYear
+        output: false
+...
