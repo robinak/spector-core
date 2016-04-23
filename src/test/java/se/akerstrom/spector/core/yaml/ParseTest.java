@@ -8,7 +8,7 @@ import java.io.File;
 public class ParseTest
 {
     @Test
-    public void specification_file_can_be_parsed()
+    public void can_parse_specification_file()
     {
         String path = "se/akerstrom/spector/core/example/leap-year-example.yaml";
         File file = new File(this.getClass().getClassLoader().getResource(path).getFile());
