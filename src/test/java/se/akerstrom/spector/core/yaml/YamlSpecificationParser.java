@@ -5,7 +5,7 @@ import se.akerstrom.spector.core.specification.yaml.ParsedYamlSpecification;
 
 import java.io.File;
 
-public class ParseTest
+public class YamlSpecificationParser
 {
     @Test
     public void can_parse_specification_file()
