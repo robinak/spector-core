@@ -1,4 +1,4 @@
-package se.akerstrom.spector.core.specification.location;
+package se.akerstrom.spector.core.specification.configuration;
 
 import org.junit.runner.RunWith;
 import se.akerstrom.spector.core.testrunner.SpectorJunitTestRunner;

@@ -1,13 +1,14 @@
 package se.akerstrom.spector.core.specification.provider;
 
-import se.akerstrom.spector.core.specification.location.SpectorSpecificationPath;
-import se.akerstrom.spector.core.specification.location.SpectorSpecificationsRoot;
+import se.akerstrom.spector.core.specification.configuration.SpectorConfiguration;
+import se.akerstrom.spector.core.specification.configuration.SpectorSpecificationPath;
 import se.akerstrom.spector.core.specification.Specification;
 import se.akerstrom.spector.core.specification.yaml.ParsedYamlSpecification;
 import se.akerstrom.spector.core.specification.yaml.YamlSpecificationParseFailure;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -60,6 +61,8 @@ public class Specifications
                 .map(SpectorSpecificationPath::value)
                 .filter(isYamlFilename)
                 .map(Specifications::resourcePathToFile)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .map(ParsedYamlSpecification::new);
     }
 
@@ -68,35 +71,46 @@ public class Specifications
         return Optional.ofNullable(testClass.getAnnotation(SpectorSpecificationPath.class));
     }
 
-    static Stream<Path> streamPathsFromRootAnnotation(SpectorSpecificationsRoot annotation)
+    static Stream<Path> streamPathsFromRootAnnotation(SpectorConfiguration annotation)
     {
         return Optional.of(annotation)
-                .map(SpectorSpecificationsRoot::value)
+                .map(SpectorConfiguration::specificationsRoot)
                 .map(Specifications::pathsFromRoot)
                 .get()
                 .filter(Files::isRegularFile)
                 .filter(isYamlPath);
     }
 
-    static Optional<SpectorSpecificationsRoot> findSpectorRootAnnotation(Class<?> testClass)
+    static Optional<SpectorConfiguration> findSpectorRootAnnotation(Class<?> testClass)
     {
-        return Optional.ofNullable(testClass.getAnnotation(SpectorSpecificationsRoot.class));
+        return Optional.ofNullable(testClass.getAnnotation(SpectorConfiguration.class));
     }
 
     static Stream<Path> pathsFromRoot(String root)
     {
-        File rootDirectory = resourcePathToFile(root);
+        Optional<File> rootDirectory = resourcePathToFile(root);
+
+        if (!rootDirectory.isPresent()) {
+            return Stream.empty();
+        }
+
         try {
-            return Files.walk(rootDirectory.toPath());
+            return Files.walk(rootDirectory.get().toPath());
 
         } catch (IOException e) {
             throw new YamlSpecificationParseFailure("Unable to parse specifications in root: " + root, e);
         }
     }
 
-    static File resourcePathToFile(String path)
+    static Optional<File> resourcePathToFile(String path)
     {
-        return new File(Specifications.class.getClassLoader().getResource(path).getFile());
+        URL url = Specifications.class.getClassLoader().getResource(path);
+
+        if (url == null) {
+            return Optional.empty();
+        }
+        File file = new File(url.getFile());
+        return Optional.of(file);
     }
 
 }

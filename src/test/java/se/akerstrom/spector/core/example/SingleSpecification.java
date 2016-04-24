@@ -1,7 +1,7 @@
 package se.akerstrom.spector.core.example;
 
 import org.junit.runner.RunWith;
-import se.akerstrom.spector.core.specification.location.SpectorSpecificationPath;
+import se.akerstrom.spector.core.specification.configuration.SpectorSpecificationPath;
 import se.akerstrom.spector.core.testrunner.SpectorJunitTestRunner;
 
 @RunWith(SpectorJunitTestRunner.class)
