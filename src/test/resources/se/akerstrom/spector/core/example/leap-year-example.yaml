@@ -22,13 +22,13 @@ fixtures:
   - definition: A year is not a leap year
     propositions:
 
-      - proposition: If it is not divisable by 4
+      - proposition: If it is not divisible by 4
         given:
           year: 2001
         action: isLeapYear
         expected: false
 
-      - proposition: If it is divisable by 100 but not by 400
+      - proposition: If it is divisible by 100 but not by 400
         given:
           year: 2100
         action: isLeapYear
