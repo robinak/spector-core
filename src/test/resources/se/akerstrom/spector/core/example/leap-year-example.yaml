@@ -7,7 +7,7 @@ fixtures:
   - definition: A year is a leap year
     propositions:
 
-      - proposition: If it is divisible by 4 but not 100
+      - proposition: If it is divisible by 4 but not by 100
         given:
           year: 2012
         action: isLeapYear
